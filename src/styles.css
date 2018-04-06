@@ -1,1 +1,66 @@
 /* You can add global styles to this file, and also import other style files */
+
+.menu-inicio {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.box {
+    width: 300px;
+    height: 200px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    cursor: pointer;
+    transition: 500ms;
+}
+
+.box span {
+    font-size: 80px;
+}
+
+.box p {
+    color: white;
+    font-size: 26px;
+}
+
+.rojo {
+    background-color: #f56954;
+}
+
+.rojo:hover {
+    background-color: #ff7c67;
+}
+
+.rojo span {
+    color: #803226;
+}
+
+.verde {
+    background-color: #5cb85c;
+}
+
+.verde:hover {
+    background-color: #67ff67;
+}
+
+
+.verde span {
+    color: #208320;
+}
+
+.azul {
+    background-color: #428bca;
+}
+
+.azul:hover {
+    background-color: #62b6ff;
+}
+
+.azul span {
+    color: #1a4c77;
+}
