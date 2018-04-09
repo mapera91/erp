@@ -1,0 +1,70 @@
+<div class="col-ms-12">
+  <nav aria-label="breadcrum">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"> <a routerLink="/inicio">Inicio</a> </li>
+      <li class="breadcrumb-item"> <a routerLink="/compras">Compras</a> </li>
+      <li class="breadcrumb-item"> <a routerLink="/listado-proveedores">Proveedores</a> </li>
+      <li class="breadcrumb-item active" aria-current="page">Nuevo Proveedor</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="col-md-12 titulo">
+  <span>Añadir Proveedor</span>
+  <button class="btn btn-primary" routerLink="/listado-proveedores">
+    Atras
+  </button>
+</div>
+
+<div class="col-md-8 offset-md-2 col-12">
+  <div class="formulario">
+    <form [formGroup]="proveedorForm" (ngSubmit)="crearProv()">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" class="form-control" formControlName="nombre">
+      </div>
+      <div class="form-group">
+        <label for="cif">CIF</label>
+        <input type="text" class="form-control" formControlName="cif">
+      </div>
+      <div class="form-group">
+        <label for="direccion">Dirección</label>
+        <input type="text" class="form-control" formControlName="direccion">
+      </div>
+      <div class="form-group">
+        <label for="cp">Código Postal</label>
+        <input type="number" class="form-control" formControlName="cp">
+      </div>
+      <div class="form-group">
+        <label for="localidad">Localidad</label>
+        <input type="text" class="form-control" formControlName="localidad">
+      </div>
+      <div class="form-group">
+        <label for="provincia">Provincia</label>
+        <select class="form-control" formControlName="provincia">
+          <option *ngFor="let provincia of provincias" [value]="provincia">
+            {{provincia}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input type="text" class="form-control" formControlName="telefono">
+      </div>
+      <div class="form-group">
+        <label for="mail">Correo Electrónico</label>
+        <input type="email" class="form-control" formControlName="email">  
+      </div>
+      <div class="form-group">
+        <label for="contacto">Contacto</label>
+        <input type="text" class="form-control" formControlName="contacto">
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Añadir Proveedor
+      </button>
+      <button routerLink="/listado-proveedores" class="btn btn-danger">
+        Cancelar
+      </button>
+    </form>
+  </div>
+</div>

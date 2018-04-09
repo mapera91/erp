@@ -7,3 +7,25 @@
     </ol>
   </nav>
 </div>
+
+<div class="col-md-12 titulo">
+  <span>Proveedores</span>
+  <button class="btn btn-primary" routerLink="/crear-proveedor">
+    <strong>+</strong>
+  </button>
+</div>
+
+<div class="col-md-12">
+  <table class="table table-bordered table-striped">
+    <tr>
+      <th>Nombre</th>
+      <th>CIF</th>
+      <th>Localidad</th>
+    </tr>
+    <tr *ngFor="let proveedor of proveedores">
+      <td>{{proveedor.nombre}}</td>
+      <td>{{proveedor.cif}}</td>
+      <td>{{proveedor.localidad}}</td>
+    </tr>
+  </table>
+</div>
