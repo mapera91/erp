@@ -18,9 +18,34 @@ export class ProveedoresService {
     });
   }
 
+  getProveedorId(id) {
+    let url = 'http://localhost:3000/proveedor/'; //protocolo/dominio/id
+    return this.http.get(url + id).map((resp:any)=> {
+      console.log(resp);
+      return resp;
+    });
+
+  }
+
   postProveedor(proveedor) {
     let url = 'http://localhost:3000/proveedor';
     return this.http.post(url,proveedor).map((resp:any)=> {
+      console.log(resp);
+      return resp;
+    });
+  }
+
+  putProveedor(id,proveedor) {
+    let url = 'http://localhost:3000/proveedor/'; //protocolo/dominio/id
+    return this.http.put(url + id,proveedor).map((resp:any)=> {
+      console.log(resp);
+      return resp;
+    });
+  }
+
+  deleteProveedor(id) {
+    let url = 'http://localhost:3000/proveedor/'; //protocolo/dominio/id
+    return this.http.delete(url + id).map((resp:any)=> {
       console.log(resp);
       return resp;
     });
