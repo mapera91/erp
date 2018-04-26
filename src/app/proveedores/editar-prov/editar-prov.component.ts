@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ProveedoresService } from '../../servicios/proveedores.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AutenticacionService } from '../../servicios/autenticacion.service';
 
 @Component({
   selector: 'app-editar-prov',
@@ -23,7 +24,8 @@ export class EditarProvComponent implements OnInit {
   constructor(private pf:FormBuilder,
               private proveedoresService:ProveedoresService,
               private router:Router,
-              private route:ActivatedRoute) { 
+              private route:ActivatedRoute,
+              private autenticacionService:AutenticacionService) { 
                 if(!this.proveedor) {
                   this.proveedor = {};
                 }

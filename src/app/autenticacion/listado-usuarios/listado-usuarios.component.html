@@ -1,0 +1,148 @@
+<div class="container breadcrum">
+  <nav aria-label="breadcrum">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"> <a routerLink="/inicio">Inicio</a> </li>
+      <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+    </ol>
+  </nav>
+</div>
+
+<div *ngIf="autenticacionService.getPerLisUsuarios()">
+  <div class="container titulo">
+    <span>Usuarios</span>
+    <span class="btn btn-warning" [@alerta]="estadoAlerta">{{mensaje}}</span>
+    <button class="btn btn-primary" *ngIf="!mostrarFormulario" (click)="verFormulario()">
+      <i class="fas fa-user-plus"></i>
+    </button>
+    <button class="btn btn-danger" *ngIf="mostrarFormulario" (click)="verFormulario()">
+      <i class="fas fa-ban"></i>
+    </button>
+  </div>
+
+  <div class="container" [@formulario]="estadoFormulario">
+    <form class="fila" [formGroup]="crearUsuarioForm" (ngSubmit)="crearUsuario()">
+      <div class="nuevo">
+        <input type="text" placeholder="Nombre" formControlName="nombre">
+      </div>
+      <div class="nuevo">
+        <input type="email" placeholder="Correo Electrónico" formControlName="email">
+      </div>
+      <div class="nuevo">
+        <input type="text" placeholder="Contraseña" formControlName="password">
+      </div>
+      <div class="nuevo">
+        <select formControlName="rol">
+          <option value="administrador">Administrador</option>
+          <option value="director compras">Director de Compras</option>
+          <option value="empleado compras">Empleado de Compras</option>
+          <option value="director ventas">Director de Ventas</option>
+          <option value="empleado ventas">Empleado de Ventas</option>
+          <option value="becario">Becario</option>
+        </select>
+      </div>
+      <div class="nuevo">
+        <button type="submit" class="btn btn-primary" [disabled]="crearUsuarioForm.invalid">
+          <span *ngIf="!enviando">
+            <i class="far fa-save"></i>
+          </span>
+          <span *ngIf="enviando">
+            <i class="fas fa-spinner fa-pulse"></i>
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <hr>
+
+  <div class="container">
+    <div class="cabecera">
+      <div class="campo">
+        <p>Nombre</p>
+      </div>
+      <div class="campo">
+        <p>Correo Electrónico</p>
+      </div>
+      <div class="campo">
+        <p>Rol de Usuario</p>
+      </div>
+      <div class="campo"></div>
+    </div>
+    <div *ngFor="let usuario of usuarios">
+      <form class="fila editable" [formGroup]="editarUsuarioForm" *ngIf="usuario._id === editarFila">
+        <div class="campo">
+          <input type="text" formControlName="nombre" [(ngModel)]="usuario.nombre">
+        </div>
+        <div class="campo">
+          <input type="email" formControlName="email" [(ngModel)]="usuario.email">
+        </div>
+        <div class="campo">
+          <select type="text" formControlName="rol" [(ngModel)]="usuario.rol">
+            <option value="administrador">Administrador</option>
+            <option value="director compras">Director de Compras</option>
+            <option value="empleado compras">Empleado de Compras</option>
+            <option value="director ventas">Director de Ventas</option>
+            <option value="empleado ventas">Empleado de Ventas</option>
+            <option value="becario">Becario</option>
+          </select>
+        </div>
+        <div class="campo">
+          <button class="btn btn-primary" (click)="guardarEdicion(usuario._id)">
+            <span *ngIf="!enviando">
+              <i class="fas fa-save"></i>
+            </span>
+            <span *ngIf="enviando">
+              <i class="fas fa-spinner fa-pulse"></i>
+            </span>
+          </button>
+          <button class="btn btn-danger" (click)="cancelarEdicion()">
+            <i class="fas fa-ban"></i>
+          </button>
+        </div>
+      </form>
+      <div class="fila" *ngIf="usuario._id !== editarFila">
+        <div class="campo">
+          <p>{{usuario.nombre}}</p> 
+        </div>
+        <div class="campo">
+          <p>{{usuario.email}}</p>
+        </div>
+        <div class="campo">
+          <p>{{usuario.rol}}</p> 
+        </div>
+        <div class="campo">
+          <button class="btn btn-success" (click)="modificarUsuario(usuario._id)" [disabled]="editarFila && usuario._id !== editarFila">
+            <i class="far fa-edit"></i>
+          </button>
+          <button class="btn btn-danger"  data-toggle="modal" data-target="#exampleModal" (click)="getId(usuario._id)" [disabled]="editarFila && usuario._id !== editarFila">
+            <i class="far fa-trash-alt"></i>
+          </button>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel"> <i class="fas fa-exclamation-triangle"></i> </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  ¿Está seguro de eliminar el usuario?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary" (click)="borrarUsuario()" data-dismiss="modal">Aceptar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sesiones">
+    <button class="btn btn-primary" (click)="sesionesService.verUsuarios()">
+      Sesiones de Usuario
+    </button>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="container breadcrum">
+  <nav aria-label="breadcrum">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"> <a routerLink="/inicio">Inicio</a> </li>
+      <li class="breadcrumb-item"> <a routerLink="/inicio">Usuarios</a> </li>
+      <li class="breadcrumb-item active" aria-current="page">Sesiones de Usuarios</li>
+    </ol>
+  </nav>
+</div>
+
+
+<div *ngIf="autenticacionService.getPerLisUsuarios()">
+  <div class="col-md-12">
+    <table class="table table-bordered table-striped tabla-facturas">
+      <tr>
+        <th>Proveedor</th>
+        <th>CIF</th>
+        <th>Total Factura</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let sesion of sesiones">
+        <td>{{sesion.nombre}}</td>
+        <td>{{sesion.login}}</td>
+        <td>{{sesion.logout}}</td>
+      </tr>
+    </table>
+  </div>
+</div>

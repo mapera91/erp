@@ -1,16 +1,28 @@
-<div class="col-ms-12">
+<div class="barra-fija">
+    <div title="Proveedores" routerLink="/listado-proveedores"> 
+      <i class="far fa-address-card"></i> 
+    </div>
+    <div title="Facturas" routerLink="/listado-facturas"> 
+      <i class="far fa-file-alt"></i>
+    </div> 
+  </div>
+
+<div class="col-md-12 breadcrum">
   <nav aria-label="breadcrum">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"> <a routerLink="/inicio">Inicio</a> </li>
       <li class="breadcrumb-item"> <a routerLink="/compras">Compras</a> </li>
       <li class="breadcrumb-item"> <a routerLink="/listado-proveedores">Proveedores</a> </li>
-      <li class="breadcrumb-item active" aria-current="page">Editar Proveedor</li>
+      <li class="breadcrumb-item active" aria-current="page" *ngIf="autenticacionService.getPerProveedores()">Editar Proveedor</li>
+      <li class="breadcrumb-item active" aria-current="page" *ngIf="!autenticacionService.getPerProveedores()">Visualizar Proveedor</li>
+
     </ol>
   </nav>
 </div>
 
 <div class="col-md-12 titulo">
-  <span>Editar Proveedor</span>
+  <span *ngIf="autenticacionService.getPerProveedores()">Editar Proveedor</span>
+  <span *ngIf="!autenticacionService.getPerProveedores()">Visualizar Proveedor</span>
   <button class="btn btn-primary" routerLink="/listado-proveedores">
     Atras
   </button>
@@ -21,45 +33,48 @@
     <form [formGroup]="proveedorForm" (ngSubmit)="editarProv()">
       <div class="form-group">
         <label for="nombre">Nombre</label>
-        <input type="text" class="form-control" formControlName="nombre" [(ngModel)]="proveedor.nombre">
+        <input type="text" class="form-control" formControlName="nombre" [(ngModel)]="proveedor.nombre" [readonly]="!autenticacionService.getPerProveedores()">
       </div>
       <div class="form-group">
         <label for="cif">CIF</label>
-        <input type="text" class="form-control" formControlName="cif" [(ngModel)]="proveedor.cif">
+        <input type="text" class="form-control" formControlName="cif" [(ngModel)]="proveedor.cif" [readonly]="!autenticacionService.getPerProveedores()">
       </div>
       <div class="form-group">
         <label for="domicilio">Domicilio</label>
-        <input type="text" class="form-control" formControlName="domicilio" [(ngModel)]="proveedor.domicilio">
+        <input type="text" class="form-control" formControlName="domicilio" [(ngModel)]="proveedor.domicilio" [readonly]="!autenticacionService.getPerProveedores()">
       </div>
       <div class="form-group">
         <label for="cp">Código Postal</label>
-        <input type="number" class="form-control" formControlName="cp" [(ngModel)]="proveedor.cp">
+        <input type="number" class="form-control" formControlName="cp" [(ngModel)]="proveedor.cp" [readonly]="!autenticacionService.getPerProveedores()">
       </div>
       <div class="form-group">
         <label for="localidad">Localidad</label>
-        <input type="text" class="form-control" formControlName="localidad" [(ngModel)]="proveedor.localidad">
+        <input type="text" class="form-control" formControlName="localidad" [(ngModel)]="proveedor.localidad" [readonly]="!autenticacionService.getPerProveedores()">
       </div>
       <div class="form-group">
         <label for="provincia">Provincia</label>
-        <select class="form-control" formControlName="provincia" [(ngModel)]="proveedor.provincia">
+        <select class="form-control" formControlName="provincia" [(ngModel)]="proveedor.provincia" *ngIf="autenticacionService.getPerProveedores()">
           <option *ngFor="let provincia of provincias" [ngValue]="provincia">
             {{provincia}}
           </option>
         </select>
+        <div *ngIf="!autenticacionService.getPerProveedores()">
+            <input type="text" class="form-control" formControlName="provincia" [(ngModel)]="proveedor.provincia" [readonly]="!autenticacionService.getPerProveedores()">
+        </div>
       </div>
       <div class="form-group">
         <label for="telefono">Teléfono</label>
-        <input type="text" class="form-control" formControlName="telefono" [(ngModel)]="proveedor.telefono">
+        <input type="text" class="form-control" formControlName="telefono" [(ngModel)]="proveedor.telefono" [readonly]="!autenticacionService.getPerProveedores()">
       </div>
       <div class="form-group">
         <label for="mail">Correo Electrónico</label>
-        <input type="email" class="form-control" formControlName="email" [(ngModel)]="proveedor.email">  
+        <input type="email" class="form-control" formControlName="email" [(ngModel)]="proveedor.email" [readonly]="!autenticacionService.getPerProveedores()">  
       </div>
       <div class="form-group">
         <label for="contacto">Contacto</label>
-        <input type="text" class="form-control" formControlName="contacto" [(ngModel)]="proveedor.contacto">
+        <input type="text" class="form-control" formControlName="contacto" [(ngModel)]="proveedor.contacto" [readonly]="!autenticacionService.getPerProveedores()">
       </div>
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-primary" *ngIf="!autenticacionService.getPerProveedores()">
         <span>Guardar Cambios</span>
         <!-- <span *ngIf="!enviando">
           Añadir Proveedor
