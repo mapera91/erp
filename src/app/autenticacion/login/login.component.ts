@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   mensaje:string = 'Error de conexión con el servidor';
   mostrarAlerta:boolean = false;
   enviando:boolean = false;
-  fechaLogin:Date;
+  sesion:any;
 
   constructor(private lf:FormBuilder,
               private autenticacionService:AutenticacionService,
@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
     this.usuario = this.guardarUsuario();
     this.autenticacionService.login(this.usuario).subscribe((resp:any)=> {
       this.enviando = false;
+      this.crearSesion();
       this.router.navigate(['/']);
     },(error:any)=> {
       this.mostrarAlerta = true;
@@ -59,8 +60,16 @@ export class LoginComponent implements OnInit {
     return guardarUsuario;
   }
 
-  obtenerFechaLogin() {
-    this.fechaLogin = new Date();
+  crearSesion() {
+    this.sesion = {
+      nombre:this.autenticacionService.nombre,
+      fechaLogin:new Date()
+    }
+    this.autenticacionService.postSesion(this.sesion).subscribe((resp:any)=> {
+      console.log(resp);
+    },(error)=> {
+      console.log(error);
+    })
   }
 
 }

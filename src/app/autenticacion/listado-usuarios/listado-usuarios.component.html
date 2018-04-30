@@ -58,6 +58,9 @@
   <div class="container">
     <div class="cabecera">
       <div class="campo">
+        <p>Online</p>
+      </div>
+      <div class="campo">
         <p>Nombre</p>
       </div>
       <div class="campo">
@@ -68,7 +71,7 @@
       </div>
       <div class="campo"></div>
     </div>
-    <div *ngFor="let usuario of usuarios">
+    <div *ngFor="let usuario of usuarios; let i=index">
       <form class="fila editable" [formGroup]="editarUsuarioForm" *ngIf="usuario._id === editarFila">
         <div class="campo">
           <input type="text" formControlName="nombre" [(ngModel)]="usuario.nombre">
@@ -102,6 +105,14 @@
       </form>
       <div class="fila" *ngIf="usuario._id !== editarFila">
         <div class="campo">
+          <span *ngIf="online[i]">
+           <i class="fas fa-globe valido"></i>
+          </span>
+          <span *ngIf="!online[i]">
+            <i class="fas fa-globe no-valido"></i>
+            </span>
+        </div>
+        <div class="campo">
           <p>{{usuario.nombre}}</p> 
         </div>
         <div class="campo">
@@ -117,6 +128,10 @@
           <button class="btn btn-danger"  data-toggle="modal" data-target="#exampleModal" (click)="getId(usuario._id)" [disabled]="editarFila && usuario._id !== editarFila">
             <i class="far fa-trash-alt"></i>
           </button>
+          <button class="btn btn-warning" routerLink="/sesiones/{{usuario.nombre}}">
+            <i class="far fa-clock"></i>
+          </button>
+          <!-- Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -139,10 +154,5 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="sesiones">
-    <button class="btn btn-primary" (click)="sesionesService.verUsuarios()">
-      Sesiones de Usuario
-    </button>
   </div>
 </div>

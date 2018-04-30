@@ -14,7 +14,7 @@
         <button *ngIf="!getLogged()" class="btn btn-primary" routerLink="/inicio-sesion">
           Iniciar Sesión
         </button>
-        <button *ngIf="getLogged()" class="btn btn-danger" (click)="autenticacionService.logout()">
+        <button *ngIf="getLogged()" class="btn btn-danger" (click)="crearSesion(); autenticacionService.logout()">
           Cerrar Sesión
         </button>
       </div>

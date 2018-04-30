@@ -12,10 +12,13 @@ export class AutenticacionService {
   token:string;
   nombre:string;
   rol:string;
+  ultimoLogin:any;
 
   constructor(private http:HttpClient,
               private router:Router) {
     this.cargarCredendiales();
+    this.cargarInicioSesion();
+    console.log(this.ultimoLogin);
   }
   
   getUsuarios() {
@@ -55,6 +58,7 @@ export class AutenticacionService {
     return this.http.post(url,usuario).map((resp:any)=> {
       console.log(resp);
       this.guardarCredenciales(resp.token,resp.nombre,resp.rol);
+      this.guardarInicioSesion();
       return resp;
     });
   }
@@ -64,6 +68,12 @@ export class AutenticacionService {
     localStorage.setItem('nombre',nombre);
     localStorage.setItem('rol',rol);
     this.token = token;
+  }
+
+  guardarInicioSesion() {
+    var inicioSesion = new Date();
+    localStorage.setItem('ultimoLogin',JSON.stringify(inicioSesion));
+    this.ultimoLogin = inicioSesion;
   }
 
   cargarCredendiales() {
@@ -78,6 +88,14 @@ export class AutenticacionService {
     }
   }
 
+  cargarInicioSesion() {
+    if(localStorage.getItem('ultimoLogin')) {
+      this.ultimoLogin = JSON.parse(localStorage.getItem('ultimoLogin'));
+    } else {
+      this.ultimoLogin = "";
+    }
+  }
+
   isLogged() {
     return (this.token.length > 0) ? true : false;
   }
@@ -86,10 +104,12 @@ export class AutenticacionService {
     localStorage.removeItem('token');
     localStorage.removeItem('nombre');
     localStorage.removeItem('rol');
+    localStorage.removeItem('ultimoLogin');
     this.token = "";
     this.nombre = "";
     this.rol = "";
-    this.router.navigate(['/inicio-sesion']);
+    this.ultimoLogin = "";
+    this.router.navigate(['/']);
   }
 
   getPerLisUsuarios() {
@@ -130,6 +150,22 @@ export class AutenticacionService {
     } else {
       return false;
     }
+  }
+
+  getSesiones(nombre) {
+    let url = 'http://localhost:3000/sesion?nombre=' + nombre;
+    return this.http.get(url).map((resp:any)=> {
+      console.log(resp);
+      return resp;
+    });  
+  }
+
+  postSesion(sesion) {
+    let url = 'http://localhost:3000/sesion/';
+    return this.http.post(url,sesion).map((resp:any)=> {
+      console.log(resp);
+      return resp;
+    });  
   }
 
 }

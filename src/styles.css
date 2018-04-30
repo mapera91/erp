@@ -172,11 +172,11 @@
 }
 
 .cabecera .campo:nth-child(1) {
-    width: 30%;
+    width: 5%;
 }
 
 .cabecera .campo:nth-child(2) {
-    width: 30%;
+    width: 25%;
 }
 
 .cabecera .campo:nth-child(3) {
@@ -184,6 +184,9 @@
 }
 
 .cabecera .campo:nth-child(4) {
+    width: 10%;
+}
+.cabecera .campo:nth-child(5) {
     width: 10%;
 }
 
@@ -203,11 +206,12 @@
 }
 
 .fila .campo:nth-child(1) {
-    width: 30%;
+    width: 5%;
+    border-bottom: none;
 }
 
 .fila .campo:nth-child(2) {
-    width: 30%;
+    width: 25%;
 }
 
 .fila .campo:nth-child(3) {
@@ -215,7 +219,11 @@
 }
 
 .fila .campo:nth-child(4) {
-    width: 10%;
+    width: 30%;
+}
+
+.fila .campo:nth-child(5) {
+    width: 20%;
     border: none;
 }
 

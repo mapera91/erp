@@ -31,8 +31,8 @@ import { ClientesService } from './servicios/clientes.service';
 import { PresupuestosService } from './servicios/presupuestos.service';
 import { AutenticacionGuard } from './servicios/autenticacion.guard';
 import { ListadoUsuariosComponent } from './autenticacion/listado-usuarios/listado-usuarios.component';
-import { SesionesComponent } from './sesiones/sesiones.component';
-import { SesionesService } from './servicios/sesiones.service';
+import { SesionesComponent } from './autenticacion/sesiones/sesiones.component';
+
 
 const rutas:Routes = [
   {path:'',component:InicioComponent},
@@ -40,6 +40,7 @@ const rutas:Routes = [
   {path:'inicio-sesion',component:LoginComponent},
   {path:'listado-usuarios',component:ListadoUsuariosComponent,canActivate:[AutenticacionGuard]},
   {path:'sesiones',component:SesionesComponent,canActivate:[AutenticacionGuard]},
+  {path:'sesiones/:nombre',component:SesionesComponent,canActivate:[AutenticacionGuard]},
   {path:'compras',component:ComprasComponent,canActivate:[AutenticacionGuard]},
   {path:'listado-proveedores',component:ListadoProvComponent,canActivate:[AutenticacionGuard]},
   {path:'crear-proveedor',component:CrearProvComponent,canActivate:[AutenticacionGuard]},
@@ -88,7 +89,7 @@ const rutas:Routes = [
     ReactiveFormsModule,
     BrowserAnimationsModule
   ],
-  providers: [ProveedoresService, FacturasService, AutenticacionService, ClientesService, PresupuestosService, AutenticacionGuard, SesionesService],
+  providers: [ProveedoresService, FacturasService, AutenticacionService, ClientesService, PresupuestosService, AutenticacionGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
