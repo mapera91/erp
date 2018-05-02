@@ -318,3 +318,12 @@ form.fila:first-child(1) {
 .paginacion button {
     margin: 15px;
 }
+
+.oculto {
+    visibility: hidden;
+}
+
+.btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}

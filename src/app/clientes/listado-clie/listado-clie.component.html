@@ -19,16 +19,24 @@
 
 <div class="col-md-12 titulo">
 <span>Clientes</span>
-<span class="alert alert-danger" [@alerta]="estadoAlerta">
+<!-- <span class="alert alert-danger" [@alerta]="estadoAlerta">
   {{mensaje}}
-</span>
+</span> -->
 <button class="btn btn-primary" routerLink="/crear-cliente">
   <i class="fas fa-user-plus"></i>
 </button>
 </div>
 
 <div class="col-md-12">
-<table class="table table-bordered table-striped">
+
+<input type="search" class="form-control" placeholder="Introduzca el nombre" [formControl]="buscador">
+<div>
+  <p *ngFor="let cliente of clientes">
+    {{cliente.nombre}}
+  </p>
+  <p *ngIf="mensaje">No se han encontrado coincidencias</p>
+</div>
+<!-- <table class="table table-bordered table-striped">
   <tr>
     <th>Nombre</th>
     <th>CIF</th>
@@ -43,11 +51,11 @@
       <button class="btn btn-success" routerLink="/editar-cliente/{{cliente._id}}">
         <i class="far fa-edit"></i> 
       </button> 
-      <!-- Button trigger modal -->
+      <!-- Button trigger modal
       <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" (click)="obtenerId(cliente._id)">
         <i class="far fa-trash-alt"></i>
       </button>
-      <!-- Modal -->
+      <!-- Modal
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -69,5 +77,5 @@
       </div>
     </td>
   </tr>
-</table>
+</table> -->
 </div>

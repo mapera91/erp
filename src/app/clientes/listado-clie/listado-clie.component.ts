@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ClientesService } from '../../servicios/clientes.service';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-listado-clie',
@@ -12,49 +13,32 @@ import { ClientesService } from '../../servicios/clientes.service';
 })
 export class ListadoClieComponent implements OnInit {
 
+  buscador:FormControl;
   clientes:any;
-  id:string;
-  mensaje:string;
-  mostrarAlerta:boolean = false;
+  mensaje:boolean;
 
-  constructor(private clientesService:ClientesService) { }
+  constructor(private clientesService:ClientesService,
+              private bf:FormBuilder) { }
 
   ngOnInit() {
-    this.cargarClientes(); //Cuando se carga el componente se ejecuta cargarClientes
-  }
-
-  get estadoAlerta() {
-    return this.mostrarAlerta ? 'show' : 'hide';
-  }
-
-  cargarClientes() {
-    this.clientesService.getClientes().subscribe((resp:any)=> { //subscribe para recojer los datos
-      this.clientes = resp.clientes;
-      console.log(this.clientes);
-    },error=> {
-      console.log(error);
-    }) 
-  }
-
-  obtenerId(id) {
-    this.id = id;
-  }
-
-  borrarCliente() {
-    this.clientesService.deleteCliente(this.id).subscribe((resp:any)=> {
-      this.mensaje = "El cliente ha sido eliminado correctamente";
-      this.mostrarAlerta = true;
-      this.cargarClientes();
-      setTimeout(()=> {
-        this.mostrarAlerta = false;
-      },3000);
-    },(error:any)=> {
-      this.mensaje = 'Error de conexion con el servidor';
-      this.mostrarAlerta = true;
-      setTimeout(()=> {
-        this.mostrarAlerta = false;
-      },3000);
-    });
+    this.buscador = new FormControl();
+    this.buscador.valueChanges.subscribe(nombre=> {
+      if(nombre.length != 0) {
+        this.clientesService.getClientes(nombre).subscribe((resp:any)=> { //peticion
+          this.clientes = resp.clientes;
+          if(this.clientes.length === 0) {
+            this.mensaje = true;
+          } else {
+            this.mensaje = false;
+          }
+        },(error)=> {
+          console.log(error);
+        })
+      } else {
+        this.clientes = [];
+        this.mensaje = false;
+      }
+    })
   }
 
 }

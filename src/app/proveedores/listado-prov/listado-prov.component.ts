@@ -16,10 +16,13 @@ export class ListadoProvComponent implements OnInit {
 
   proveedores:any;
   id:string;
-  mensaje:string;
+  mensaje:string = 'Error de conexión con el servidor';
   mostrarAlerta:boolean = false;
   desde:number = 0;
   total:number;
+  botones:number[] = [];
+  numeroBotones:number;
+  tramoBotones:number = 0;
 
   constructor(private proveedoresService:ProveedoresService,
               private autenticacionService:AutenticacionService) { }
@@ -36,6 +39,12 @@ export class ListadoProvComponent implements OnInit {
     this.proveedoresService.getProveedores(this.desde).subscribe((resp:any)=> { //subscribe para recojer los datos
       this.proveedores = resp.proveedores;
       this.total = resp.total;
+      this.numeroBotones = this.total / 5;
+      this.botones = [];
+      var i;
+      for(i=this.tramoBotones;i<this.tramoBotones+5;i++) {
+        this.botones.push(i+1)
+      }
       console.log(this.proveedores);
     },error=> {
       console.log(error);
@@ -45,13 +54,54 @@ export class ListadoProvComponent implements OnInit {
   setDesde(valor) {
     var desde = this.desde + valor;
     if(desde >= this.total) {
-      return
+      return;
     } else if(desde < 0) {
-      return
+      return;
     } else {
       this.desde += valor;
       this.cargarProveedores();
     }
+  }
+
+  updateDesde(valor) {
+    this.desde = valor;
+    this.cargarProveedores();
+  }
+
+  avanzarBotones() {
+    if(this.desde % 25 === 0) {
+      this.botones = [];
+      this.tramoBotones += 5;
+      var i;
+      for(i=this.tramoBotones;i<this.tramoBotones+5;i++) {
+        this.botones.push(i+1)
+      }
+    }
+  }
+
+  avanzarTramoBotones() {
+    this.botones = [];
+    this.tramoBotones += 5;
+    this.desde = this.tramoBotones * 5;
+    this.cargarProveedores();
+  }
+
+  retrocederBotones() {
+    if((this.desde + 5) % 25 === 0) {
+      this.botones = [];
+      this.tramoBotones -= 5;
+      var i;
+      for(i=this.tramoBotones;i=this.tramoBotones+5;i++) {
+        this.botones.push(i+1)
+      }
+    }
+  }
+
+  retrocederTramoBotones() {
+    this.botones = [];
+    this.tramoBotones -= 5;
+    this.desde = this.tramoBotones * 5;
+    this.cargarProveedores();
   }
 
   obtenerId(id) {
