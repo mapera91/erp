@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { PresupuestosService } from '../../servicios/presupuestos.service';
+import { ClientesService } from '../../servicios/clientes.service';
 
 
 @Component({
@@ -12,97 +13,78 @@ export class CrearPresComponent implements OnInit {
 
   presupuestoForm: FormGroup;
   presupuesto:any;
-  base:number;
-  tipo:number;
-  importe:number;
-  total:number;
-  irpf:number;
-  retencion:boolean = false;
+  clientes:any;
 
   constructor(private pf: FormBuilder,
-              private presupuestosService: PresupuestosService) { }
+              private presupuestosService: PresupuestosService,
+              private clientesService: ClientesService) { }
 
   ngOnInit() {
-    this.iniciarFormulario();
-  }
-
-
-  iniciarFormulario(){
+    this.cargarClientes();
     this.presupuestoForm = this.pf.group({
-      cliente: [ null , Validators.required ],
-      cif: ['' , [Validators.required, Validators.minLength(9)]],
-      fecha: null,
-      concepto: null,
-      base: [null, [Validators.required, Validators.max(100000)]],
-      retencion: false,
-      tipo: 0.21,
-      irpf: this.formatearMoneda(0),
-      importe: this.formatearMoneda(0),
-      total: this.formatearMoneda(0)
-    });
+      cliente:null,
+      fecha:null,
+      items: this.pf.array([  //metodo para inicializar un formulario dentro del formulario
+        this.initItem()
+      ]),
+      suma:null
+    })
     this.detectarCambios();
   }
 
-  redondear(valor){
-    var valor;
-    if(valor < 0) {
-      var resultado = Math.round(-valor*100)/100 * -1;
-    } else {
-        var resultado = Math.round(valor*100)/100;
-    }
-    return resultado;
+  // ESQUEMA:
+  //   cliente:...
+  //   fecha:...
+  //   items:[{
+  //     articulo:...
+  //     importe:...
+  //   }]
+
+  initItem() {
+    return this.pf.group({  
+      articulo:null,
+      cantidad:null,
+      precio:null,
+      importe:null
+    });
   }
 
-  formatearMoneda(valor){
-    var resultado = new Intl.NumberFormat("es-ES",{style: "currency", currency: "EUR"})
-                      .format(valor);
-    return resultado;
+  addItem() {
+    const control = <FormArray>this.presupuestoForm.controls['items'];  //Crea un objeto sobre el que podemos añadir lineas
+    control.push(this.initItem());  //Como initItem devuelve un formulario, con el push lo añadimos al objeto anterior
   }
 
-  detectarCambios(){
-    this.presupuestoForm.valueChanges.subscribe(valorForm =>{
-      this.base = this.redondear(valorForm.base);
-      this.retencion = valorForm.retencion;
-      this.tipo = valorForm.tipo;
-      if(this.retencion){
-        this.irpf = this.redondear(this.base * -0.15);
-      } else {
-        this.irpf = 0;
+  removeItem(i) {
+    const control = <FormArray>this.presupuestoForm.controls['items'];  
+    control.removeAt(i); 
+
+  }
+
+  cargarClientes() {
+    this.clientesService.getTodosClientes().subscribe((resp:any)=> {
+      this.clientes = resp.clientes;
+    },(error)=> {
+      console.log(error);
+    });
+  }
+
+  detectarCambios() {
+    this.presupuestoForm.valueChanges.subscribe(datos=> {
+      var importe = 0;
+      var j;
+      for(j=0;j<datos.items.length;j++) {
+        var cantidad = datos.items[j].cantidad;
+        var precio = datos.items[j].precio;
+        this.presupuestoForm.value.items[j].importe = cantidad * precio;
+        console.log();
       }
-      this.importe = this.redondear(this.base * this.tipo);
-      this.total = this.redondear(this.base + this.irpf + this.importe);
-      this.presupuestoForm.value.irpf = this.formatearMoneda(this.irpf);
-      this.presupuestoForm.value.importe = this.formatearMoneda(this.importe);
-      this.presupuestoForm.value.total = this.formatearMoneda(this.total);
+      var suma = 0;
+      var i;     //para los ciclos for dentro de un componente de angular antes se debe declarar la variable que usamos de indice
+      for(i=0;i<datos.items.length;i++) {  //contador con el mismo numero de elementos que los del array
+        suma = suma + datos.items[i].importe;  //extraemos del array con indice i el importe
+      }
+      this.presupuestoForm.value.suma = suma;
     })
- 
-  }
-
-  
-  registrarPre(){
-    this.presupuesto = this.guardarPre();
-    this.presupuestosService.postPresupuesto(this.presupuesto)
-            .subscribe((res:any)=>{
-              console.log(res);
-            })
-    this.iniciarFormulario();
-  }
-
-  guardarPre(){
-    const guardarPre = {
-      proveedor: this.presupuestoForm.get('cliente').value,
-      cif: this.presupuestoForm.get('cif').value,
-      fecha: this.presupuestoForm.get('fecha').value,
-      concepto: this.presupuestoForm.get('concepto').value,
-      base: this.presupuestoForm.get('base').value,
-      retencion: this.presupuestoForm.get('retencion').value,
-      tipo: this.presupuestoForm.get('tipo').value,
-      irpf: this.presupuestoForm.get('irpf').value,
-      importe: this.presupuestoForm.get('importe').value,
-      total: this.presupuestoForm.get('total').value,
-      //fechaRegistro: new Date()
-    }
-    return guardarPre;
   }
 
 }

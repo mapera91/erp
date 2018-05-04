@@ -32,6 +32,8 @@ import { PresupuestosService } from './servicios/presupuestos.service';
 import { AutenticacionGuard } from './servicios/autenticacion.guard';
 import { ListadoUsuariosComponent } from './autenticacion/listado-usuarios/listado-usuarios.component';
 import { SesionesComponent } from './autenticacion/sesiones/sesiones.component';
+import { CrearArtiComponent } from './articulos/crear-arti/crear-arti.component';
+import { ListadoArtiComponent } from './articulos/listado-arti/listado-arti.component';
 
 
 const rutas:Routes = [
@@ -55,6 +57,8 @@ const rutas:Routes = [
   {path:'listado-presupuestos',component:ListadoPresComponent,canActivate:[AutenticacionGuard]},
   {path:'crear-presupuesto',component:CrearPresComponent,canActivate:[AutenticacionGuard]},
   {path:'editar-presupuesto/:id',component:EditarPresComponent,canActivate:[AutenticacionGuard]},
+  {path:'listado-articulos',component:ListadoArtiComponent,canActivate:[AutenticacionGuard]},
+  {path:'crear-articulo',component:CrearArtiComponent,canActivate:[AutenticacionGuard]},
   {path:'**',component:InicioComponent}
 ];
 
@@ -80,7 +84,9 @@ const rutas:Routes = [
     CrearPresComponent,
     EditarPresComponent,
     ListadoUsuariosComponent,
-    SesionesComponent
+    SesionesComponent,
+    CrearArtiComponent,
+    ListadoArtiComponent
   ],
   imports: [
     BrowserModule,
