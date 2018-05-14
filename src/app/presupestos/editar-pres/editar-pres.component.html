@@ -1,3 +1,162 @@
-<p>
-  editar-pres works!
-</p>
+<div class="barra-fija">
+  <div title="Clientes" routerLink="/listado-clientes"> 
+    <i class="far fa-address-card"></i> 
+  </div>
+  <div title="Presupuestos" routerLink="/listado-presupuestos"> 
+    <i class="far fa-file-alt"></i>
+  </div> 
+  <div title="Artículos" routerLink="/listado-articulos"> 
+    <i class="fas fa-cogs"></i>
+  </div> 
+</div>
+
+<div class="col-md-12">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/inicio">Inicio</a></li>
+      <li class="breadcrumb-item"><a routerLink="/ventas">Ventas</a></li>
+      <li class="breadcrumb-item"><a routerLink="/listado-presupuestos">Presupuestos</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Editar Presupuesto</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="col-md-12 titulo">
+  <span>Editar Presupuesto</span>
+  <button class="btn btn-primary" routerLink="/listado-presupuestos">
+    <strong>Volver</strong>
+  </button>
+</div>
+
+<div class="col-md-10 offset-md-1 col-12">
+  <div class="formulario">
+    <form [formGroup]="presupuestoForm">
+      <div class="form-row">
+        <div class="form-group col-md-2">
+          <label for="num">Nº Ppto.</label>
+          <input type="text" class="form-control" formControlName="num" [(ngModel)]="presupuestoForm.value.num" readonly>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="cliente">Cliente</label>
+          <input type="text" class="form-control" formControlName="cliente" list="clientes">
+          <datalist id="clientes">
+            <option *ngFor="let cliente of clientes" [value]="cliente.nombre">
+              {{cliente.nombre}}
+            </option>
+          </datalist>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="cif">CIF</label>
+          <input type="text" class="form-control" formControlName="cif" [(ngModel)]="presupuestoForm.value.cif" readonly>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="fecha">Fecha</label>
+          <input type="date" class="form-control" formControlName="fecha">
+        </div>
+      </div>
+      <div class="form-group">
+        <h5>Artículos</h5>
+      </div>
+      <hr>
+
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <label>Nº</label>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Artículo</label>
+        </div>
+        <div class="form-group col-md-2">
+          <label>Cantidad</label>
+        </div>
+        <div class="form-group col-md-2" style="text-align:right">
+          <label>Precio</label>
+        </div>
+        <div class="form-group col-md-2" style="text-align:right">
+          <label>Importe</label>
+        </div>
+      </div>
+
+      <div formArrayName="items">   <!-- un div para introducir la generación de pequeños formularios del ts -->
+        <div *ngFor="let item of presupuestoForm.controls.items.controls;let i=index">  <!-- div para que se generen los formularios de la siguiente manera -->
+          <div [formGroupName]="i" class="form-row">  <!-- div con cada una de las filas que se vayan generando -->
+            <div class="form-group col-md-1">
+              <input type="text" class="form-control" value="{{i+1}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+              <input type="text" class="form-control" formControlName="articulo" list="articulos">
+              <datalist id="articulos">
+                <option *ngFor="let articulo of articulos" [value]="articulo.nombre">
+                  {{articulo.nombre}} | {{articulo.referencia}}
+                </option>
+              </datalist>
+            </div>
+            <div class="form-group col-md-2">
+              <input type="number" class="form-control" formControlName="cantidad">
+            </div>
+            <div class="form-group col-md-2">
+              <input type="number" class="form-control" formControlName="precio" [(ngModel)]="presupuestoForm.value.items[i].precio" readonly>
+            </div>
+            <div class="form-group col-md-2">
+              <input type="number" class="form-control" formControlName="importe" [(ngModel)]="presupuestoForm.value.items[i].importe" readonly>
+            </div>
+            <div class="form-group col-md-1">
+              <button class="btn btn-danger" (click)="removeItem(i)">
+                <i class="fas fa-minus-circle"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-1">
+          <button class="btn btn-primary" (click)="addItem()">
+            <i class="fas fa-plus-circle"></i>
+          </button>
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-2" style="text-align:right;margin-top:5px">
+          <label for="suma">Suma</label>
+        </div>
+        <div class="col-md-2">
+          <input type="number" class="form-control" formControlName="suma" [(ngModel)]="presupuestoForm.value.suma" readonly>
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:10px">
+        <div class="col-md-7" style="text-align:right;margin-top:10px">
+          <label>% IVA</label>
+        </div>
+        <div class="col-md-2" >
+          <select class="form-control" formControlName="tipo">
+            <option value=0.21>21%</option>
+            <option value=0.1>10%</option>
+            <option value=0.04>4%</option>
+            <option value=0.0>0%</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <input type="number" class="form-control" formControlName="iva" [(ngModel)]="presupuestoForm.value.iva" readonly>
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:10px">
+        <div class="col-md-9" style="text-align:right;margin-top:10px">
+          <label>Total</label>
+        </div>
+        <div class="col-md-2">
+          <input type="number" class="form-control" formControlName="total" [(ngModel)]="presupuestoForm.value.total" readonly>
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:10px">
+        <div class="col-md-11" style="text-align:right">
+          <button class="btn btn-danger" routerLink="/listado-presupuestos">
+            Cancelar
+          </button>
+          <button class="btn btn-primary" (click)="editarPresupuesto()">
+            Guardar cambios
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+  

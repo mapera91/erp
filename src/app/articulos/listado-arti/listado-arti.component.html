@@ -1,25 +1,52 @@
 <div class="barra-fija">
-    <div title="Proveedores" routerLink="/listado-proveedores"> 
-      <i class="far fa-address-card"></i> 
-    </div>
-    <div title="Facturas" routerLink="/listado-facturas"> 
-      <i class="far fa-file-alt"></i>
-    </div> 
-    <div title="Artículos" routerLink="/listado-articulos"> 
-      <i class="fas fa-cogs"></i>
-    </div> 
+  <div title="Clientes" routerLink="/listado-clientes"> 
+    <i class="far fa-address-card"></i> 
   </div>
-  
-  <div class="col-md-12 breadcrum">
-    <nav aria-label="breadcrum">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"> <a routerLink="/inicio">Inicio</a> </li>
-        <li class="breadcrumb-item"> <a routerLink="/ventas">Ventas</a> </li>
-        <li class="breadcrumb-item active" aria-current="page">Articulos </li>
-      </ol>
-    </nav>
-  </div>
+  <div title="Presupuestos" routerLink="/listado-presupuestos"> 
+    <i class="far fa-file-alt"></i>
+  </div> 
+  <div title="Artículos" routerLink="/listado-articulos"> 
+    <i class="fas fa-cogs"></i>
+  </div> 
+</div>
 
-  <div class="col-md-12">
+<div class="col-md-12">
+  <nav aria-label="breadcrum">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"> <a routerLink="/inicio">Inicio</a> </li>
+      <li class="breadcrumb-item"> <a routerLink="/ventas">Ventas</a> </li>
+      <li class="breadcrumb-item active" aria-current="page">Articulos </li>
+    </ol>
+  </nav>
+</div>
 
-  </div>
+<div class="col-md-12 titulo">
+  <span>Artículos</span>
+  <button class="btn btn-primary" routerLink="/crear-articulo">
+    <i class="fas fa-plus-circle"></i>
+  </button>
+</div>
+
+<div class="col-md-12">
+  <table class="table table-bordered table-striped tabla-facturas">
+    <tr>
+      <th>Referencia</th>
+      <th>Nombre</th>
+      <th>Precio</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let articulo of articulos">
+      <td>{{articulo.referencia}}</td>
+      <td>{{articulo.nombre}}</td>
+      <td>{{articulo.precio}}</td>
+      <td>
+        <button class="btn btn-success" disabled>
+          <i class="fas fa-pen-square"></i>
+        </button>
+        <button class="btn btn-danger" disabled>
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>

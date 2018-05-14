@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms'
 import  { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 import { InicioComponent } from './inicio/inicio.component';
@@ -34,6 +35,7 @@ import { ListadoUsuariosComponent } from './autenticacion/listado-usuarios/lista
 import { SesionesComponent } from './autenticacion/sesiones/sesiones.component';
 import { CrearArtiComponent } from './articulos/crear-arti/crear-arti.component';
 import { ListadoArtiComponent } from './articulos/listado-arti/listado-arti.component';
+import { ArticulosService } from './servicios/articulos.service';
 
 
 const rutas:Routes = [
@@ -93,9 +95,10 @@ const rutas:Routes = [
     RouterModule.forRoot(rutas),
     HttpClientModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ChartsModule
   ],
-  providers: [ProveedoresService, FacturasService, AutenticacionService, ClientesService, PresupuestosService, AutenticacionGuard],
+  providers: [ProveedoresService, FacturasService, AutenticacionService, ClientesService, PresupuestosService, AutenticacionGuard, ArticulosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

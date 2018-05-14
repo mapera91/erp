@@ -8,7 +8,7 @@ import { PresupuestosService } from '../../servicios/presupuestos.service';
 })
 export class ListadoPresComponent implements OnInit {
 
-  presupuestos:any;
+  presupuestos:any = [];
   id:string;
 
   constructor(private presupuestosService: PresupuestosService) { }
@@ -18,12 +18,16 @@ export class ListadoPresComponent implements OnInit {
   }
 
   cargarPresupuestos(){
-    this.presupuestosService.getPresupuestos()
-               .subscribe((resp:any)=>{
-                  this.presupuestos = resp.presupuestos;
-               }, error => {
-                 console.log(error);
-               })
+    this.presupuestosService.getPresupuestos().subscribe((resp:any)=>{
+      var presupuestos = resp.presupuestos;
+      presupuestos.forEach(presupuesto=> {
+        var num = '0000' + presupuesto.numero + '/18';
+        presupuesto.num = num.slice(-7);
+        this.presupuestos.push(presupuesto);
+      });
+    }, error => {
+      console.log(error);
+    })
   }
 
 
@@ -32,12 +36,12 @@ export class ListadoPresComponent implements OnInit {
   }
 
   borrarPresupuesto(){
-    this.presupuestosService.deletePresupuesto(this.id)
-                .subscribe((resp:any)=>{
-                  this.cargarPresupuestos();
-                },(error:any)=>{
-                  console.log(error);
-                })
+    this.presupuestosService.deletePresupuesto(this.id).subscribe((resp:any)=>{
+      this.presupuestos = []; 
+      this.cargarPresupuestos();
+    },(error:any)=>{
+      console.log(error);
+    })
   }
 
 }

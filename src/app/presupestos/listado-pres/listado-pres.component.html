@@ -1,12 +1,13 @@
 <div class="barra-fija">
-  <div title="Clientes" 
-        routerLink="/listado-clientes">
-      <i class="far fa-address-card"></i>
+  <div title="Clientes" routerLink="/listado-clientes">
+    <i class="far fa-address-card"></i>
   </div>
-  <div title="Presupuestos" 
-        routerLink="/listado-presupuestos">
-      <i class="far fa-file-alt"></i>
+  <div title="Presupuestos" routerLink="/listado-presupuestos">
+    <i class="far fa-file-alt"></i>
   </div>
+  <div title="Artículos" routerLink="/listado-articulos"> 
+    <i class="fas fa-cogs"></i>
+  </div> 
 </div>
 <div class="col-md-12">
   <nav aria-label="breadcrumb">
@@ -27,14 +28,18 @@
 <div class="col-md-12">
   <table class="table table-bordered table-striped tabla-facturas">
     <tr>
+      <th style="width:10%">Nº</th>
       <th>Cliente</th>
       <th>CIF</th>
+      <th>Fecha</th>
       <th>Total</th>
       <th></th>
     </tr>
     <tr *ngFor="let presupuesto of presupuestos">
+      <td style="width:10%">{{presupuesto.num}}</td>
       <td>{{presupuesto.cliente}}</td>
       <td>{{presupuesto.cif}}</td>
+      <td>{{presupuesto.fecha}}</td>
       <td>{{presupuesto.total}}</td>
       <td>
         <button class="btn btn-success"

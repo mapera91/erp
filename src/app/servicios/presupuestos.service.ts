@@ -12,42 +12,44 @@ export class PresupuestosService {
 
   getPresupuestos(){
     let url = 'http://localhost:3000/presupuesto';
-    return this.http.get(url)
-                  .map( (resp:any) => {
-                    return resp;
-                  });
+    return this.http.get(url).map((resp:any) => {
+      return resp;
+    });
+  }
+
+  getTotalesPorCliente(){
+    let url = 'http://localhost:3000/presupuesto/cliente';
+    return this.http.get(url).map((resp:any) => {
+      return resp;
+    });
   }
   
   getPresupuestoId(id){
     let url = 'http://localhost:3000/presupuesto/';
-    return this.http.get(url + id)
-                      .map( (resp:any) => {
-                        return resp;
-                      });
+    return this.http.get(url + id).map((resp:any) => {
+      return resp;
+    });
   }
 
   postPresupuesto(presupuesto){
-    let url = "http://localhost:3000/presupuesto";
-    return this.http.post(url, presupuesto)
-                  .map( (resp:any) => {
-                    return resp;
-                  });
+    let url = 'http://localhost:3000/presupuesto';
+    return this.http.post(url,presupuesto).map((resp:any) => {
+      return resp;
+    });
   }
 
   putPresupuesto(id, presupuesto){
     let url = 'http://localhost:3000/presupuesto/';
-    return this.http.put(url+id, presupuesto)
-                  .map( (resp:any) => {
-                    return resp;
-                  });
+    return this.http.put(url+id, presupuesto).map((resp:any) => {
+      return resp;
+    });
   }
 
   deletePresupuesto(id){
-    let url = 'http://localhost:3000/Presupuesto/';
-    return this.http.delete(url+id)
-                    .map( (resp:any) => {
-                      return resp;
-                    });
+    let url = 'http://localhost:3000/presupuesto/';
+    return this.http.delete(url + id).map((resp:any) => {
+      return resp;
+    });
   }
 
 }

@@ -1,34 +1,34 @@
 <div class="barra-fija">
-    <div title="Clientes" routerLink="/listado-clientes"> 
-      <i class="far fa-address-card"></i> 
-    </div>
-    <div title="Presupuestos" routerLink="/listado-Presupuestos"> 
-      <i class="far fa-file-alt"></i>
-    </div> 
-    <div title="Artículos" routerLink="/listado-articulos"> 
-      <i class="fas fa-cogs"></i>
-    </div> 
+  <div title="Clientes" routerLink="/listado-clientes"> 
+    <i class="far fa-address-card"></i> 
   </div>
-  
-  <div class="col-md-12">
-  <nav aria-label="breadcrum">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"> <a routerLink="/inicio">Inicio</a> </li>
-      <li class="breadcrumb-item"> <a routerLink="/ventas">Ventas</a> </li>
-      <li class="breadcrumb-item"> <a routerLink="/listado-articulos">Artículos</a> </li>
-      <li class="breadcrumb-item active" aria-current="page">Nuevo Artículo</li>
-    </ol>
-  </nav>
-  </div>
-  
-  <div class="col-md-12 titulo">
-  <span>Añadir Artículo</span>
-  <button class="btn btn-primary" routerLink="/listado-articulos">
-    Atras
-  </button>
-  </div>
-  
-  <div class="col-md-8 offset-md-2 col-12">
+  <div title="Presupuestos" routerLink="/listado-presupuestos"> 
+    <i class="far fa-file-alt"></i>
+  </div> 
+  <div title="Artículos" routerLink="/listado-articulos"> 
+    <i class="fas fa-cogs"></i>
+  </div> 
+</div>
+
+<div class="col-md-12">
+<nav aria-label="breadcrum">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"> <a routerLink="/inicio">Inicio</a> </li>
+    <li class="breadcrumb-item"> <a routerLink="/ventas">Ventas</a> </li>
+    <li class="breadcrumb-item"> <a routerLink="/listado-articulos">Artículos</a> </li>
+    <li class="breadcrumb-item active" aria-current="page">Nuevo Artículo</li>
+  </ol>
+</nav>
+</div>
+
+<div class="col-md-12 titulo">
+<span>Añadir Artículo</span>
+<button class="btn btn-primary" routerLink="/listado-articulos">
+  <strong>Atras</strong> 
+</button>
+</div>
+
+<div class="col-md-8 offset-md-2 col-12">
   <div class="formulario">
     <form [formGroup]="articuloForm" (ngSubmit)="crearArti()">
       <div class="form-group">
@@ -41,7 +41,7 @@
       </div>
       <div class="form-group">
         <label for="precio">Precio</label>
-        <input type="text" class="form-control" formControlName="precio">
+        <input type="number" class="form-control" formControlName="precio">
       </div>
       <button type="submit" class="btn btn-primary">
           Añadir Artículo
@@ -50,8 +50,5 @@
         Cancelar
       </button>
     </form>
-    <p class="alert alert-warning" [@alerta]="estadoAlerta">
-      {{mensaje}}
-    </p>
   </div>
-  </div>
+</div>
